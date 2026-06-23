@@ -21,7 +21,7 @@ kubectl -n monitoring port-forward svc/alertmanager-main 9093
 kubectl -n monitoring port-forward svc/grafana 3000
 ```
 
-1. PrometheusRule 작성 및 적용
+2. PrometheusRule 작성 및 적용
 - sample-app-alert-rule.yaml
     - `sample-app` scrape가 실패하면 alert가 발생하도록 만드는 파일
 
@@ -48,11 +48,11 @@ spec:
         description: "Prometheus cannot scrape metrics from sample-app."
 ```
 
-![](./images/week08-1.png)
+![](./Images/week08-1.png)
 
-1. 그라파나 대시보드 구성
+3. 그라파나 대시보드 구성
 
-![](./images/week08-2.png)
+![](./Images/week08-2.png)
 
 | 패널 이름 | PromQL | 목적 |
 | --- | --- | --- |
@@ -60,7 +60,7 @@ spec:
 | Sample App Status Metric | `sample_app_up` | sample-app이 직접 노출한 상태 메트릭 |
 | Sample App Metric Value | `sample_app_requests_total` | sample-app에서 만든 counter 형태의 테스트 메트릭 |
 | Alert Firing Status | `max(ALERTS{alertname="SampleAppScrapeDown", alertstate="firing"}) or vector(0)` | PrometheusRule에 의해 `SampleAppScrapeDown` alert가 firing 상태인지 확인한다. 정상 상태에서는 0, 장애 발생 시에는 1로 표시됨 |
-1. 디스코드 웹훅 설정
+4. 디스코드 웹훅 설정
 - alertmanager.yaml
 
 ```jsx
@@ -103,7 +103,7 @@ kubectl -n monitoring create secret generic alertmanager-main \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-1. 장애 유발
+5. 장애 유발
 
 ```jsx
 kubectl patch servicemonitor sample-app \
@@ -111,9 +111,9 @@ kubectl patch servicemonitor sample-app \
   -p '{"spec":{"endpoints":[{"port":"http","path":"/wrong-metrics","interval":"15s"}]}}'
 ```
 
-1. 장애 상황 확인
+6. 장애 상황 확인
 
-![](./images/week08-3.png)
+![](./Images/week08-3.png)
 
 <aside>
 
@@ -121,9 +121,9 @@ kubectl patch servicemonitor sample-app \
 
 </aside>
 
-![](./images/week08-4.png)
+![](./Images/week08-4.png)
 
-1. 장애 복구
+7. 장애 복구
 
 ```jsx
 kubectl patch servicemonitor sample-app \
@@ -131,11 +131,12 @@ kubectl patch servicemonitor sample-app \
   -p '{"spec":{"endpoints":[{"port":"http","path":"/metrics","interval":"15s"}]}}'
 ```
 
-1. 복구 확인
+8. 복구 확인
 
-![](./images/week08-5.png)
 
-![](./images/week08-6.png)
+![](./Images/week08-5.png)
+
+![](./Images/week08-6.png)
 
 ---
 

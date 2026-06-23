@@ -10,7 +10,7 @@
 
 - **구조**
 
-![](./images/week07-1.png)
+![](./Images/week07-1.png)
 
 - Service들을 ServiceMonitor가 지속적으로 바라보고, Target을 Prometheus 서버로 전송
 - 이러한 일련의 행위들을 Operator가 관리
@@ -43,7 +43,7 @@ kubectl get svc -n monitoring
 kubectl get crd | grep monitoring.coreos.com
 ```
 
-![](./images/week07-2.png)
+![](./Images/week07-2.png)
 
 5. 포트포워딩 구성
 
@@ -62,7 +62,7 @@ kubectl get crd | grep monitoring.coreos.com
 kubectl get servicemonitor -n monitoring
 ```
 
-![](./images/week07-3.png)
+![](./Images/week07-3.png)
 
 2. Sample Application 배포
 - deployment.yaml
@@ -173,13 +173,13 @@ spec:
 kubectl get endpoints sample-app
 ```
 
-![](./images/week07-4.png)
+![](./Images/week07-4.png)
 
 4. 메트릭 정상 수집 여부 확인
 - Prometheus Target
 
-![](./images/week07-5.png)
+![](./Images/week07-5.png)
 
 - Prometheus Query
 
-![](./images/week07-6.png)
+![](./Images/week07-6.png)
